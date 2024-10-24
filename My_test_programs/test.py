@@ -8,10 +8,14 @@ class A:
     print(id(o.name))
   
     
-o=A()
-o.f()
+# o=A()
+# o.f()
 
-print(id(o.name))
-print(A.name)
+
+# print(id(o.name))
+# print(A.name)
     
+    
+a={"theme":"ubthe","is_res":False}
+print(list(a.items()))
 

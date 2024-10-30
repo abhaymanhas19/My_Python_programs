@@ -1,0 +1,35 @@
+<!-- static/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FastAPI External Stream Example</title>
+</head>
+<body>
+    <h1>Streaming External Data</h1>
+    <ul id="data-list"></ul>
+    <button id="stop-button">Stop Streaming</button>
+
+    <script>
+        const eventSource = new EventSource('/stream');
+
+        eventSource.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            const li = document.createElement('li');
+            li.textContent = data.content;
+            document.getElementById('data-list').appendChild(li);
+        };
+
+        eventSource.onerror = function(event) {
+            console.error('EventSource error:', event);
+            eventSource.close();
+        };
+
+        // Handle Stop Button Click
+        document.getElementById('stop-button').addEventListener('click', function() {
+            eventSource.close(); // Close the EventSource connection
+            console.log('Streaming stopped by user.');
+        });
+    </script>
+</body>
+</html>

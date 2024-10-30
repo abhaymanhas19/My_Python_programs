@@ -49,3 +49,22 @@ async def main1():
        await asyncio.gather(query_product(pool),query_product(pool))
        
 asyncio.run(main1())
+
+# In case of error while excuting sql statements we need to be rolled back the transsaction.To achieve this we will use connection.transaction() that will automatically handle 
+async def main2():
+    connection=await asyncpg.connect()
+    try:
+        async  with connection.transaction():
+            insert_brand = "INSERT INTO brand VALUES(9999, 'big_brand')"
+            await connection.execute(insert_brand)
+            await connection.execute(insert_brand)
+    except Exception:
+        print('Error while running transaction')
+    finally:
+        query = """SELECT brand_name FROM brand
+        primary key.
+        WHERE brand_name LIKE 'big_%'"""
+        brands = await connection.fetch(query)    
+        print(f'Query result was: {brands}')
+        await connection.close()
+                

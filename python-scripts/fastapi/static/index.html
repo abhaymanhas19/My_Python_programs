@@ -3,32 +3,62 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>FastAPI External Stream Example</title>
+    <title>FastAPI Process Control</title>
 </head>
 <body>
-    <h1>Streaming External Data</h1>
-    <ul id="data-list"></ul>
-    <button id="stop-button">Stop Streaming</button>
+    <h1>Process Control</h1>
+    <button id="start-button">Start Processing</button>
+    <button id="stop-button" disabled>Stop Processing</button>
+    <p id="status">Status: Not started</p>
+    <p id="total">Total: 0</p>
 
     <script>
-        const eventSource = new EventSource('/stream');
+        let controller = null;
 
-        eventSource.onmessage = function(event) {
-            const data = JSON.parse(event.data);
-            const li = document.createElement('li');
-            li.textContent = data.content;
-            document.getElementById('data-list').appendChild(li);
-        };
+        document.getElementById('start-button').addEventListener('click', async () => {
+            // Update UI
+            document.getElementById('status').innerText = "Status: Processing...";
+            document.getElementById('start-button').disabled = true;
+            document.getElementById('stop-button').disabled = false;
+            document.getElementById('total').innerText = "Total: 0";
 
-        eventSource.onerror = function(event) {
-            console.error('EventSource error:', event);
-            eventSource.close();
-        };
+            // Initialize AbortController to handle cancellation
+            controller = new AbortController();
+            const signal = controller.signal;
 
-        // Handle Stop Button Click
-        document.getElementById('stop-button').addEventListener('click', function() {
-            eventSource.close(); // Close the EventSource connection
-            console.log('Streaming stopped by user.');
+            try {
+                // Send the request to the backend
+                const response = await fetch('/stream', { signal });
+                const data = await response.json();
+
+                // Update UI based on response
+                document.getElementById('status').innerText = `Status: ${data.status}`;
+                document.getElementById('total').innerText = `Total: ${data.total}`;
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    // Request was aborted
+                   console.log('34')
+                } else {
+                    // Other errors
+                    document.getElementById('status').innerText = "Status: Error occurred";
+                    console.error('Fetch error:', error);
+                }
+            } finally {
+                // Reset buttons
+                document.getElementById('start-button').disabled = false;
+                document.getElementById('stop-button').disabled = true;
+                controller = null;
+            }
+        });
+
+        document.getElementById('stop-button').addEventListener('click', () => {
+            console.log("erer")
+            if (controller) {
+                console.log("er")
+                controller.abort(); // Cancel the request
+                document.getElementById('status').innerText = "Status: Stopping...";
+                document.getElementById('stop-button').disabled = true;
+            }
         });
     </script>
 </body>

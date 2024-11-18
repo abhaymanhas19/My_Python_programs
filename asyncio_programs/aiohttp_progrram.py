@@ -38,21 +38,7 @@ async def main():
 # asyncio.run(main())
 
 
-async def demo(numner):
-    print(numner)
-    await asyncio.sleep(2)
-    print("done")
-    
-    
-    
-async def main1():
-    tasks=[]
-    for i in range(100000,100009):
-        task = asyncio.create_task(demo(i))
-        tasks.append(task)
-        
-asyncio.run(main1())
-        
+
     
     
     

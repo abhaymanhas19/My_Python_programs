@@ -1,13 +1,13 @@
-# from collections import defaultdict
+class_name = input("Class Name: ")
 
-# categories = ["aa_bb","aa_cc","aa_dd","bb_ee","bb_ff","bb_gg"]
-# subcategories = defaultdict(list)
-# for category in set(cat.split("_")[0] for cat in categories):
-#     subcategories[category].extend(
-#         [subcat for subcat in categories if subcat.startswith(category)]
-#     )
-    
-# print(subcategories)
+class_attributes={
+    "__init__":lambda self,name: (
+        setattr(self,"name",name)
+    ),
+    "test":lambda self:print(self.name)
+}
 
-a = [(a,b) for a in range(3) for b in "Abhay"]
-print(a)
+class_instance = type(class_name,(object,),class_attributes)
+instacen  =  class_instance("abjay")
+instacen.test()
+

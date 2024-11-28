@@ -7,6 +7,19 @@ class_attributes={
     "staticmethodexample":staticmethod(lambda:print("this is a static mehthos"))
 }   
 
+
+class_attributes={
+    "__init__":lambda self,name: (
+        setattr(self,"name",name)
+    ),
+    "test":lambda self:print(self.name)
+}
+
+class_instance = type(class_name,(object,),class_attributes)
+instacen  =  class_instance("abjay")
+instacen.test()
+
+
 Dynamicclass=type(class_name,base_classes,class_attributes)
 instance=Dynamicclass()
 instance.demo()

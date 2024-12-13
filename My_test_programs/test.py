@@ -1,13 +1,14 @@
-class_name = input("Class Name: ")
-
-class_attributes={
-    "__init__":lambda self,name: (
-        setattr(self,"name",name)
-    ),
-    "test":lambda self:print(self.name)
-}
-
-class_instance = type(class_name,(object,),class_attributes)
-instacen  =  class_instance("abjay")
-instacen.test()
-
+def greet():
+    print("Hello from B")
+    return False
+        
+def greet1():
+    print("Hello from c")
+    return False
+        
+        
+def test():
+    greet()
+    greet1()
+    
+test()

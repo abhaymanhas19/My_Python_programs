@@ -22,6 +22,9 @@ chrome_options.add_argument("--disable-infobars")  # Disable info bars
 chrome_options.add_argument("--disable-extensions")  # Disable extensions
 chrome_options.add_argument("--disable-gpu")  # Applicable for Windows OS only
 chrome_options.add_argument("--no-sandbox")  # Bypass OS security model, for Linux
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                                "Chrome/112.0.0.0 Safari/537.36")
 
 browser = None  # Initialize the browser variable to None
 
@@ -132,14 +135,20 @@ try:
             raise Exception("No solution returned by 2Captcha")
         
         # Mapping solution with captcha and marked according to Values 
-        mapped_values ={key+1:key for key in range(9) }
-        for i in solution:
-            tiles[mapped_values[int(i)]].click()
-            
-        verify_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,".bcap-verify-button")))
-        verify_button.click()
         
-        print("Verify button Clicked")
+        print("Solution provided by 2Captcha Site :", solution)
+        if isinstance(eval(solution), int):
+            mapped_values ={key+1:key for key in range(9) }
+            for i in solution:
+                tiles[mapped_values[int(i)]].click()
+                
+            verify_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,".bcap-verify-button")))
+            verify_button.click()
+            
+            print("Verify button Clicked")
+            
+        else:
+            print("Wrong Solution")
 
 
 finally:

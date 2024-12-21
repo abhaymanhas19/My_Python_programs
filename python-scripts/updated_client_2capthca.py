@@ -137,7 +137,7 @@ try:
         # Mapping solution with captcha and marked according to Values 
         
         print("Solution provided by 2Captcha Site :", solution)
-        if isinstance(eval(solution), int):
+        if 
             mapped_values ={key+1:key for key in range(9) }
             for i in solution:
                 tiles[mapped_values[int(i)]].click()

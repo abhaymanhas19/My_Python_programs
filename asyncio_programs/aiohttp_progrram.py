@@ -35,7 +35,7 @@ async def main():
         #          print(await done_task)
         print(status_codes)       
         
-# asyncio.run(main())
+asyncio.run(main())
 
 
 

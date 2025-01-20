@@ -301,7 +301,7 @@ def main():
     number_of_processes = multiprocessing.cpu_count() - 1 
     with ProcessPoolExecutor(max_workers = number_of_processes) as executor:      
         start_time = time.perf_counter()
-        result =  executor.map(make_request,[email_list[0]])
+        result =  executor.map(make_request,email_list)
         result = list(result)
         print("Tested Emails:", result)
         end_time = time.perf_counter()

@@ -1,117 +1,31 @@
-import json
-SYNC_MAIN_MODEL="gpt-4o-mini"
-import openai
-import os
-import json
+# message = """**Question**:\n\n            What does the file say about \'What information sources are used to learn about the flu and vaccine\'?\n\n            ###\n\n            **Instructions**:\n            \n            Only Focus on What information sources are used to learn about the flu and vaccine. Do not focus on .In general, when analyzing transcripts, only focus on participants’ views and ignore the moderator’s views.\n\n\n\n            Create a JSON response to the provided question. The JSON response should include:\n\n            1. `question`: "What does the file say about \'What information sources are used to learn about the flu and vaccine\'?"\n\n            2   `quotes`:\n                        The quotes field is a dictionary of individual quotes.\n                        Each quote should have a unique key (e.g., quote_1, quote_2, etc.).\n                        Each quote object must include:\n                            quote: A text string containing the quote.\n                            filename: The name of the document file from which the quote is extracted.\n            3. `answer`:\n                    The answer field is a list of answer objects.\n                    Each answer object must include:\n                        theme: A string representing the theme of the paragraph.\n                        paragraph:  A string containing the answer paragraph. The `paragraph` should be about 10 sentences long. First, identify all the quotes that are relevant to the theme. Then, based on the theme and quotes identified, write the first sentence in this paragraph, which should always provide a direct answer to the question. If analyzing interview transcripts, the `paragraph` should go on to include verbatim quotes from the transcript and explain in detail what, why, context and nuances of what the participant(s) said. If analyzing reports, the `paragraph` should go on to include multiple direct verbatim unedited sentences from the report, along with some contextual explanation of what those verbatim sentences from the report meant and how those verbatim sentences from the report answers the question.\n                        annotations: A list of strings referencing the relevant quote keys (e.g., quote_1, quote_2).\n                                ###\n\n            **Document**:\n\n            Participant_1.docx\n\nAI Interviewer:\xa0Hi! I\'m an AI voice interviewer developed by AILYZE and hired by HEKS. Thank you for joining us today. Let\'s start. How long have you been working at HEKS, and what is your role in MEAL?\n\nParticipant:\xa0I’ve been with HEKS for over 10 years, and I’m currently working as a MEAL advisor.\n\nAI Interviewer:\xa0Thank you for sharing. Can you tell me about a recent MEAL project that went well?\n\nParticipant:\xa0Sure. We recently completed a project on food security assessment in rural communities, which turned out really well. The team collected comprehensive data and identified key areas for intervention.\n\nAI Interviewer:\xa0I see. What do you think made that project successful?\n\nParticipant:\xa0A combination of thorough planning, stakeholder engagement, and using innovative data collection tools contributed to its success. The local community also played a significant role in guiding the focus of the study.\n\nAI Interviewer:\xa0Interesting. Can you give an example of a problem you\'ve encountered with our MEAL processes?\n\nParticipant:\xa0One challenge is maintaining data quality in remote areas with limited internet access. This often results in delayed reporting or incomplete datasets.\n\nAI Interviewer:\xa0Thank you for sharing. How did you or the team approach addressing this challenge?\n\nParticipant:\xa0We started using offline-capable tools and scheduled regular training sessions for local data collectors. This helped mitigate some of the issues, although it’s still a work in progress.\n\nAI Interviewer:\xa0Understood. On a scale of 1 to 10, where 1 is very ineffective and 10 is highly effective, how would you rate the overall effectiveness of our current MEAL processes?\n\nParticipant:\xa0I’d say a 7. We’re making steady progress, but there’s room for improvement, especially in streamlining workflows.\n\nAI Interviewer:\xa0Thank you. Is there a specific resource you wish you had for MEAL work?\n\nParticipant:\xa0Yes, additional funding for capacity-building initiatives would make a big difference. We often find that staff training is under-prioritized.\n\nAI Interviewer:\xa0I see. Do you think we need any new tools to make our MEAL processes better?\n\nParticipant:\xa0Definitely. A more robust dashboard for real-time data visualization would be incredibly helpful.\n\nAI Interviewer:\xa0Thank you. Are you familiar with other organizations\' MEAL practices?\n\nParticipant:\xa0Yes, I’ve had some exposure through conferences and collaborative projects.\n\nAI Interviewer:\xa0Where do you think we could learn from them?\n\nParticipant:\xa0Organizations that have fully integrated participatory methods into their MEAL frameworks are a great model. It ensures better community buy-in and relevance.\n\nAI Interviewer:\xa0Noted. What emerging trends or considerations do you think might influence our MEAL processes in the future?\n\nParticipant:\xa0I think AI-driven analytics and blockchain for data transparency are going to be major trends. Sustainability metrics are also becoming more critical.\n\nAI Interviewer:\xa0Interesting. Are there any tools you\'ve seen that you think could benefit us?\n\nParticipant:\xa0I’ve seen a platform called KoBoToolbox being used effectively for data collection in challenging environments. It might be worth exploring.\n\nAI Interviewer:\xa0Thank you. How would you describe your experience answering these questions from an AI interviewer?\n\nParticipant:\xa0It’s been straightforward and efficient. I like that the questions are clear and structured.\n\nAI Interviewer:\xa0Do you see potential for integrating AI-driven interviews like this into our MEAL processes? If so, where do you think it could be most beneficial?\n\nParticipant:\xa0Yes, I think it could be useful for initial stakeholder consultations and follow-up surveys. It could save time and resources.\n\nAI Interviewer:\xa0Do you have any final thoughts?\n\nParticipant:\xa0Just that it’s encouraging to see HEKS exploring innovative approaches to improve MEAL processes. Thank you for this opportunity.\n\nAI Interviewer:\xa0Thank you for sharing your insights. This concludes our interview. You may now close the page.\n\n###\n\n**JSON Reply Template**:\n\n{\n                "question": "What does the file say about \'What information sources are used to learn about the flu and vaccine\'?",\n                "quotes": {\n                    "quote_1": {\n                        "quote": "Consectetur adipiscing elit",\n                        "filename": "file1.txt"\n                    },\n                    "quote_2": {\n                        "quote": "Quis nostrud exercitation ullamco laboris",\n                        "filename": "file2.docx"\n                    }\n                    # ... other quotes\n                     // Add additional quotes here up to a total of 30 quotes from all JSON responses\n                },\n                "answer": [\n                    {\n                        "theme": "Lorem ipsum",\n                        "paragraph": "Dolor sit amet",\n                        "annotations": ["quote_1"]\n                    },\n                    {\n                        "theme": "Ut enim ad",\n                        "paragraph": "Minim veniam",\n                        "annotations": ["quote_2"]\n                    }\n                    # ... other paragraphs\n                ]\n            }\n\n###\n\n**JSON Reply**:"""
 
 
-AZURE_OPENAI_KEY_1=""
-AZURE_OPENAI_KEY_1_ENDPOINT=""
-AZURE_API_VERSION_1 = "2024-02-01"
+# import openai
+# import asyncio
 
-OPENAI_SECRET_KEY_0= ""
-OPENAI_ASYNC_CLIENT=openai.AsyncOpenAI(api_key=OPENAI_SECRET_KEY_0)
 
-aclient =  openai.AsyncAzureOpenAI( 
-    api_key=AZURE_OPENAI_KEY_1,
-    api_version=AZURE_OPENAI_KEY_1_ENDPOINT,
-    azure_endpoint=AZURE_API_VERSION_1)
+# OPENAI_ASYNC_CLIENT=openai.AsyncOpenAI(api_key="")
 
-def generate_topics_json_schema():
-    generate_topics_json_schema = {
-        "type": "object",
-        "properties": {
-            "preliminary_topics": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                "preliminary_topic": {
-                    "type": "string",
-                    "description": "The name of the topic."
-                },
-                "preliminary_description": {
-                    "type": "string",
-                    "description": "A detailed description of the topic."
-                }
-                },
-                "required": ["preliminary_topic", "preliminary_description"],
-                "additionalProperties": False
-            },
-            "description": "A list of preliminary topics with descriptions. Ensure there are between 2 and 6 topics included in this list. Each topic should be described clearly and comprehensively."
-            },
-            "mutual_exclusivity_check": {
-            "type": "string",
-            "description": "A thorough evaluation of whether the topics are mutually exclusive, meaning they do not overlap in content or subject matter. This involves analyzing each topic to ensure that its scope does not intersect with that of any other topic in the list."
-            },
-            "collective_exhaustiveness_check": {
-            "type": "string",
-            "description": "A thorough evaluation of whether the list of topics collectively addresses all relevant areas of interest, ensuring comprehensive coverage without leaving out significant topics."
-            },
-            "recommendations": {
-            "type": "string",
-            "description": "Suggestions for refining the list of topics to enhance coverage and relevance. This may include adding new topics, removing redundant ones, or redefining existing ones to improve clarity and comprehensiveness."
-            },
-            "final_topics": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                "final_topic": {
-                    "type": "string",
-                    "description": "The name of the topic."
-                },
-                "final_description": {
-                    "type": "string",
-                    "description": "A detailed description of the topic."
-                }
-                },
-                "required": ["final_topic", "final_description"],
-                "additionalProperties": False
-            },
-            "description": "A final list of topics with descriptions. Ensure that this list also contains between 2 and 6 topics. Each topic should be clearly defined and distinct from the others."
-            }
-        },
-        "required": ["preliminary_topics", "mutual_exclusivity_check", "collective_exhaustiveness_check", "recommendations", "final_topics"],
-        "additionalProperties": False
-        }
-    return generate_topics_json_schema
+
+# async def make_request():
+#     response = await OPENAI_ASYNC_CLIENT.chat.completions.create(
+#                     model="gpt-4o-mini",
+#                     response_format={"type": "json_object"},
+#                     temperature=0,
+#                     messages=[
+#                         {"role": "system", "content": "Your job to analyze User message carefully and response accordingly"},
+#                         {"role": "user", "content": message},
+#                     ],
+#                 )
+#     print(response)
     
-async def main(contexts):
-    generate_topics_instructions = f"""Identify 2-6 topics that directly answer the question/ theme: "{"explain the file"}". 
-                                To do so, generate a JSON. First, provide a list of preliminary topics under `"preliminary_topics"`, including a name and detailed description for each topic. Next, evaluate and describe whether the topics are mutually exclusive and if they collectively cover all relevant areas in the `"mutual_exclusivity_check"` and `"collective_exhaustiveness_check"` fields, respectively. Finally, offer any suggestions for refining the topics in the `"recommendations"` field and finalize the list of topics in `"final_topics"`, ensuring they are distinct and clearly defined."""
-    
-    function= {
-                "name": "generate_summary_topics",
-                "description": "The output should be according as  defined parameters.",
-                "parameters": generate_topics_json_schema(),
-            }
-    
-    response = await aclient.chat.completions.create(
-        model=SYNC_MAIN_MODEL,
-        temperature=0.2,
-        messages=[
-            {"role": "system", "content": generate_topics_instructions},
-            {
-                "role": "user",
-                "content": f"""# Analyses of the documents
+# asyncio.run(make_request())
 
-                {contexts}
-
-                ###
-
-                ### Output Instruction:
-                Generate a JSON object based on the defined json schema. Do not include any explanations or additional text..""",
-            },
-        ],
-        functions=[function],
-        function_call={"name": "generate_summary_topics"}
-        
-    )
-    function_args = response.choices[0].message.function_call.arguments
-    topics_response = json.loads(function_args)
-    return topics_response
-
-import asyncio
-text="Document BG_Advisor_meeting_3-14-24_AM_otter_ai.docx\n\nSo many graphic designers now work from home, and we're not going to send a kid some guy's garage for a mentorship. So how can we offer that experience on campus, or a lot of our students have the issue of transportation. I have a 16 year old girl that doesn't drive yet and her mom is not going to put her on a bus in San Diego to get her to go from San Ysidro to wherever she needs to be, because that's where she drives home every single day hurt, she gets dropped off here. So she doesn't have the transportation ability to receive a mentorship but she's really interested in hair braiding. So we got her a mannequin, and she's doing online YouTube tutorials and creating a portfolio. So that's where our X factors and LTI projects come into play is offering students the experiences for their specific pathways that they may not be able to receive off campus. Michael Crawford   In the sector's real quick, where did those come from? Um, it's something Holly BG advisor   that neural has taken on."
-print(asyncio.run(main(text)))
+import pandas as pd
+text_column=[]
+df = pd.read_csv("/home/jarvis/Documents/xlsx_csv_files/Cost-Codes (0).csv")
+for column in df.columns:
+    if df[column].apply(lambda x: isinstance(x, str) or pd.isna(x)).all() and df[column].notna().any():
+        text_column.append(column)
+print(text_column)

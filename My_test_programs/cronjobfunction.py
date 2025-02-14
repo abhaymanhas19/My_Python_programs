@@ -8,6 +8,24 @@
 # )
 
 # @app.task
-# def demo_task(messge):
+# def demo_task(messge):efkwenf
 #     print("Executing demo task")
 
+def test():
+    name="abhay"
+    
+    
+    def test1():
+        nonlocal name
+        for i in "abhaya":
+            name+=i
+            
+    test1()
+    test1()
+    return name
+
+print(test())
+
+name=""
+if  name:
+    print("yes")

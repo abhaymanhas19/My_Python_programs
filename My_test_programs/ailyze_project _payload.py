@@ -2,19 +2,19 @@
 # Write Python 3 code in this online editor and run it.
 
 request_data = {}
-request_data["files_ids"] = [107826, 107823, 108031, 108032, 108033, 108034, 108035, 108038, 108039, 108040, 108041, 108042, 108043, 108044, 108045, 108046, 108047, 108048, 108049, 108050, 108051, 108052, 108029, 111964, 111963, 111962, 111961, 111960, 111959, 111958, 111957, 111956, 111955, 111954, 111953, 111952, 111951, 111950, 111949, 111948, 111947, 111946, 111943, 111939, 111938, 111937, 111936]
+request_data["files_ids"] = [107826, 107823, 108031, 108032, 108033, 108034, 108035, 108038, 108039, 108040]
 
 # for summary data gathering..
 request_data["get_summary"] = True
 
 # for ai themes and user themes data gathering ..
 request_data["thematic_analys_ischecked"] = True
-request_data["ai_themes"] = True
-request_data["user_themes"] = False
-request_data["user_themes_payload"] = []
+request_data["ai_themes"] = False
+request_data["user_themes"] = True
+request_data["user_themes_payload"] = [{"Understanding Fintech & Digital Innovation": ["Defining Fintech", "Defining Digital Innovation", "Drivers of Digital Innovation", "Empirical Evidence of Innovation Delivery"]}, {"The connection between Digital Innovation and financial inclusion": ["mechanism of improvement", "Evidence of Impact", "Challenges and Opportunities"]}, {"The Dynamics of collaboration": ["Models of Collaboration", "Value generation from collaboration", "Challenges of collaboration"]}, {"Barriers and Evidence of successful collaboration": ["Barriers to collaboration", "Evidence of Collaboration benefits", "Future direction and recommendation"]}]
 
 # for research question data gathering ..
-request_data["research_question_ischecked"] = True
+request_data["research_question_ischecked"] = False
 request_data["user_questions"] =[]
 
 # for frequency analysis data gathering ..

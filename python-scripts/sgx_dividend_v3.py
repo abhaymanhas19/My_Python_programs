@@ -52,54 +52,54 @@ columns_to_add = {
     "link": "VARCHAR(255)"
 }
 
+# try:
+#     conn = pyodbc.connect(
+#         f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}')
+#     cursor = conn.cursor()
+#     for column_name, column_type in columns_to_add.items():
+#         # Check if the column exists
+#         check_column_query = f"""
+#         SELECT COUNT(*)
+#         FROM INFORMATION_SCHEMA.COLUMNS
+#         WHERE TABLE_NAME = '{table}' AND COLUMN_NAME = '{column_name}'
+#         """
+#         cursor.execute(check_column_query)
+#         column_exists = cursor.fetchone()[0]
+
+#         # If the column does not exist, add it
+#         if column_exists == 0:
+#             add_column_query = f"""
+#             ALTER TABLE {table}
+#             ADD [{column_name}] {column_type} NULL
+#             """
+#             cursor.execute(add_column_query)
+#             print(f"Added column: {column_name} ({column_type})")
+#         else:
+#             print(f"Column already exists: {column_name}")
+#         conn.commit()
+# except:
+#     traceback.print_exc()
+# finally:
+#     conn.close()
+
+
+
 try:
-    conn = pyodbc.connect(
-        f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}')
-    cursor = conn.cursor()
-    for column_name, column_type in columns_to_add.items():
-        # Check if the column exists
-        check_column_query = f"""
-        SELECT COUNT(*)
-        FROM INFORMATION_SCHEMA.COLUMNS
-        WHERE TABLE_NAME = '{table}' AND COLUMN_NAME = '{column_name}'
-        """
-        cursor.execute(check_column_query)
-        column_exists = cursor.fetchone()[0]
+    # conn = pyodbc.connect(
+    #     f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}')
+    # cursor = conn.cursor()
 
-        # If the column does not exist, add it
-        if column_exists == 0:
-            add_column_query = f"""
-            ALTER TABLE {table}
-            ADD [{column_name}] {column_type} NULL
-            """
-            cursor.execute(add_column_query)
-            print(f"Added column: {column_name} ({column_type})")
-        else:
-            print(f"Column already exists: {column_name}")
-        conn.commit()
-except:
-    traceback.print_exc()
-finally:
-    conn.close()
+    # # Fetch existing links from the database
+    # sql = f"SELECT link FROM {table}"
+    # cursor.execute(sql)
 
-
-
-try:
-    conn = pyodbc.connect(
-        f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}')
-    cursor = conn.cursor()
-
-    # Fetch existing links from the database
-    sql = f"SELECT link FROM {table}"
-    cursor.execute(sql)
-
-    old_links = []
-    myresult = cursor.fetchall()
-    for tup in myresult:
-            try:
-                old_links.append(tup[0])
-            except:
-                pass
+    # old_links = []
+    # myresult = cursor.fetchall()
+    # for tup in myresult:
+    #         try:
+    #             old_links.append(tup[0])
+    #         except:
+    #             pass
 
     for page in range(3):
         resp = requests.get(
@@ -210,24 +210,25 @@ try:
             tul = tuple(row[col] for col in columns)
 
             # Insert new records into MSSQL database
-            if row['link'] not in old_links:
-                sql = f"""
-                INSERT INTO {table} 
-                ([Security Name], [Type], [date], [Record date], [Payment date], [Particulars], [currency], [details], 
-                [symbol], [short_name], [symbol_curr], [exchange_rate], [link], [market], [FetchDate]) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-                """
-                try:
-                    cursor.execute(sql, tul)
-                except:
-                    traceback.print_exc()
-                    conn.rollback()
-                    pass
-                conn.commit()
-            else:
-                print('OLD --> ' + str(tul))
+            # if row['link'] not in old_links:
+            #     sql = f"""
+            #     INSERT INTO {table} 
+            #     ([Security Name], [Type], [date], [Record date], [Payment date], [Particulars], [currency], [details], 
+            #     [symbol], [short_name], [symbol_curr], [exchange_rate], [link], [market], [FetchDate]) 
+            #     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            #     """
+            #     try:
+            #         cursor.execute(sql, tul)
+            #     except:
+            #         traceback.print_exc()
+            #         conn.rollback()
+            #         pass
+            #     conn.commit()
+            # else:
+            #     print('OLD --> ' + str(tul))
 
 except:
     traceback.print_exc()
 finally:
-    conn.close()
+    
+    # conn.close()

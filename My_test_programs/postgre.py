@@ -10,22 +10,26 @@ conn = psycopg2.connect(
 )
 
 # Query to fetch data
-query = "SELECT * FROM users_projectdata WHERE id = 1927"
+query = "SELECT * FROM users_projectquery WHERE id = 6396"
 
 
-cursor=conn.cursor()
+# cursor=conn.cursor()
 
-cursor.execute(query)
-rows = cursor.fetchall()
-print(f"Number of records fetched: {len(rows)}")
+# cursor.execute(query)
+# rows = cursor.fetchall()
+# print(f"Number of records fetched: {len(rows)}")
 
-# Retrieve column names from cursor.description
-column_names = [desc[0] for desc in cursor.description]
-print(column_names)
-# Fetch data into a DataFrame
-# df = pd.read_sql_query(query, conn)
+# # Retrieve column names from cursor.description
+# column_names = [desc[0] for desc in cursor.description]
+# results = [dict(zip(column_names, row)) for row in rows]
+# import json
+# with open("output.json","w") as f:
+#     json.dump(f , results , indent=4)
+# print(column_names)
+# # Fetch data into a DataFrame
+df = pd.read_sql_query(query, conn)
 
 # # Export DataFrame to JSON
-# df.to_json('output_2694.json', orient='records', lines=True)
+df.to_json('output_6396.json', orient='records', lines=True)
 
 conn.close()

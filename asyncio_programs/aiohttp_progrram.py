@@ -1,6 +1,8 @@
 import aiohttp
 import asyncio
 
+def callback(message):
+    print(message)
 
 async def fetch_status(session, url):
     async with session.get(url) as response:
@@ -8,14 +10,16 @@ async def fetch_status(session, url):
 
 async def main():
     async with aiohttp.ClientSession() as session:
-        urls = ['https://www.google.com/' for _ in range(1000)]
+        urls = ['https://www.google.com/' for _ in range(10)]
         # urls = ['https://example.com', 'python://example.com']
         requests = [fetch_status(session, url) for url in urls]
         
         #asyncio.gather takes list of courtine and gives the result when all the countine complete his job.
         status_codes = await asyncio.gather(*requests,return_exceptions=True)
         
-        
+        loop = asyncio.get_event_loop()
+        loop.call_later(5,callback,"ehlp abhay")
+        print("asfsdf")
         # AS_COMPLETED  is a function that give the result of the courtine as they finished it without waiting to complete all courtine.but there is no deterministic ordering of results
         # for finished_task in asyncio.as_completed(requests,timeout=2):
         #     print(await finished_task)
@@ -33,7 +37,8 @@ async def main():
         #     print(f'Pending task count: {len(pending)}')
         #     for done_task in done:
         #          print(await done_task)
-        print(status_codes)       
+        print(status_codes)  
+        await asyncio.sleep(10)     
         
 asyncio.run(main())
 

@@ -6,11 +6,14 @@ conn = psycopg2.connect(
     dbname="production",
     user="ailyzeadmin",
     password="Database@124",
-    host="ailyze-database.postgres.database.azure.com"
+    host="ailyze-database.postgres.database.azure.com",
+    port=5432
 )
 
 # Query to fetch data
-query = "SELECT * FROM users_projectquery WHERE id = 6396"
+# query = "SELECT * FROM users_projectquery WHERE id = 7566"
+query = "SELECT * FROM users_projectdata WHERE Project_id = 7566"
+
 
 
 # cursor=conn.cursor()

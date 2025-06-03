@@ -6,8 +6,14 @@ import cv2 as cv
 #     cv.imshow("window",img)
 
 #     # wait key is the function that takes the time in milliseconds to show the image for specific time period.
-#     cv.waitKey(10000)
-#     # cv.destroyAllWindows()
+        # while True:
+        #     key = cv.waitKey(100)
+        #     if key != -1:
+        #         break
+        #     if cv.getWindowProperty(window_name, cv.WND_PROP_VISIBLE) < 1:
+        #         break
+
+#     cv.destroyAllWindows()
 # except Exception as e:
 #     print("Failed with error:",str(e))
 

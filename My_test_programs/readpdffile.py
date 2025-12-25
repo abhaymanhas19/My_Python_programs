@@ -179,9 +179,20 @@
 # response = asyncio.run(asyncopenrouter(system_message=system_message,user_message=message,json_schema={'type':"json_object"}))
 # print(response)
 
-import mammoth
+# import mammoth
 
-file = open("/home/jarvis/Documents/docx_pdf_files/11_Key_Informant_Interview_Community_Health_Worker_Y1Y2_Gabiley.docx","rb")
-# print(dir(mammoth))
-text = mammoth.convert_to_html(file)
-print(text)
+# file = open("/home/jarvis/Documents/docx_pdf_files/11_Key_Informant_Interview_Community_Health_Worker_Y1Y2_Gabiley.docx","rb")
+# # print(dir(mammoth))
+# text = mammoth.convert_to_html(file)
+# print(text)
+
+_global_value: str | None = None
+
+
+
+def get_global_value():
+    global _global_value
+    if _global_value is None:
+        _global_value = "demo value"
+        print("Value picked up from local")
+    return _global_value

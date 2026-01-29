@@ -1,15 +1,3 @@
-# find the Maximum Element in array
-######################################################################################
-
-#array  = [2,45,124,64,1,6,75,2,345,345,2,5,6]
-
-#maximum_value = 0
-#for i in range(0, len(array)):
-#    if array[i]>maximum_value:
-#        maximum_value = array[i]
-
-#print(maximum_value)
-
 
 #####################################################################################
 ## write the fibboncai serires upto n number
@@ -44,31 +32,6 @@ reverse_string = ""
 # Using simplest iterating
 #for char in s:
 #    reverse_string = char + reverse_string
-
-
-# Divide and Conquer technique
-#def partition(s):
-#    len_of_string = len(s)
-#    if len_of_string <=1:
-#        return s
-
-#    mid_value = len_of_string //2
-#    return partition(s[mid_value:]) + partition(s[:mid_value])
-
-
-#print(partition(s))
-
-# Two Pointer technique
-#start = 0
-#end = len(s)-1
-
-#while start <= end:
-#    s[start] , s[end] = s[end] , s[start]
-#    start +=1
-#    end -=1
-
-print(s)
-# This will raise error because string object is immutable
 
 
 

@@ -1,13 +1,8 @@
-from readpdffile import get_global_value
+from enum import StrEnum
 
-def test():
-    value = get_global_value()
-    print(value)
-
-def test2():
-    value = get_global_value()
-    print(value)
+class Demo(StrEnum):
+    TITLE = "demo"
 
 
-test()
-test2()
+
+print(Demo.TITLE)
